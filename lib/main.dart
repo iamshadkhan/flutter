@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:csv/csv.dart';
 
+import 'csv_picker.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -10,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'CSV Reader',
-      home: CsvReader(),
+      home: CsvPicker(),
     );
   }
 }
@@ -25,10 +27,22 @@ class _CsvReaderState extends State<CsvReader> {
 
   Future<void> loadCsvData() async {
     String csvRawData = await rootBundle.loadString('assets/data.csv');
-    List<List> decodedRows =
+    // print(csvRawData);
+    List<List<dynamic>> decodedRows =
         CsvToListConverter(shouldParseNumbers: false).convert(csvRawData);
+    print("decodedRows: $decodedRows");
+    List<dynamic> keys = decodedRows[0];
+    // decodedRows.removeAt(0);
+    // decodedRows.forEach((element) {
+    //   print("element: $element");
+    //   for(var i =0;i<element.length;i++)
+    //     {
+    //       print("element[i]: ${element[i]}");
+    //       csvData[keys[i]]=element[i];
+    //     }
+    // });
+    print("csvData: $csvData");
     setState(() {
-      csvData = decodedRows.cast<Map<String, dynamic>>();
     });
   }
 
